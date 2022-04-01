@@ -1,85 +1,66 @@
-#include <stdio.h>
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
- * _atoi - converts a string to an integer
- * @s: string to be converted
- *
- * Return: the int converted from the string
+ * is_number - checks to see if input is a number
+ * @s: input to check for numberhood
+ * Return: 1 if it is a number, 0 if not
  */
-int _atoi(char *s)
+
+int is_number(char *s)
 {
-	int i, d, n, len, f, digit;
+	int i;
 
 	i = 0;
-	d = 0;
-	n = 0;
-	len = 0;
-	f = 0;
-	digit = 0;
-
-	while (s[len] != '\0')
-		len++;
-
-	while (i < len && f == 0)
+	while (*(s + i) != '\0')
 	{
-		if (s[i] == '-')
-			++d;
-
-		if (s[i] >= '0' && s[i] <= '9')
+		if (*(s + i) >= '0' && *(s + i) <= '9')
 		{
-			digit = s[i] - '0';
-			if (d % 2)
-				digit = -digit;
-			n = n * 10 + digit;
-			f = 1;
-			if (s[i + 1] < '0' || s[i + 1] > '9')
-				break;
-			f = 0;
+			i++;
 		}
-		i++;
+		else
+		{
+			return (0);
+		}
 	}
-
-	if (f == 0)
-		return (0);
-
-	return (n);
+	return (1);
 }
 
 /**
- * main - adds two positive number
+ * main - prints the sum of positive numbers
  * @argc: number of arguments
- * @argv: array of arguents
- *
- * Return: 0 (Success), or 1 (Success)
+ * @argv: array of arguments
+ * Return: (0)
  */
+
 int main(int argc, char *argv[])
 {
-	int sum, num, i, j, k;
+	int i, sum, is_num;
 
 	sum = 0;
-
-	for (i = 1; i < argc; i++)
+	if (argc == 1)
 	{
-		for (j = 0; argv[i][j] != '\0'; j++)
+		printf("0\n");
+	}
+	else if (argc > 1)
+	{
+		i = 1;
+		while (i < argc)
 		{
-			if (argv[i][j] > '9' || argv[i][j] < '0')
+			is_num = is_number(argv[i]);
+			if (is_num == 1)
 			{
-				puts("Error");
+				sum += atoi(argv[i]);
+			}
+			else
+			{
+				printf("Error\n");
 				return (1);
 			}
+			i++;
 		}
+		printf("%d\n", sum);
 	}
-
-	for (k = 1; k < argc; k++)
-	{
-		num = _atoi(argv[k]);
-		if (num >= 0)
-		{
-			sum += num;
-		}
-	}
-
-	printf("%d\n", sum);
 	return (0);
 }
